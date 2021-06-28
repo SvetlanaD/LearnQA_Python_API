@@ -1,3 +1,6 @@
-# homework for the Software-testing learning course Ex3
+import json
 
-print("Hello from Denezhkina Svetlana")
+json_text = '{"messages":[{"message":"This is the first message","timestamp":"2021-06-04 16:40:53"},{"message":"And this is a second message","timestamp":"2021-06-04 16:41:01"}]}'
+json_obj = json.loads(json_text)
+print(json_obj["messages"][1]["message"])
+
