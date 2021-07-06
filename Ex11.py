@@ -4,7 +4,7 @@ import requests
 class TestEx11:
     @staticmethod
     def test_homework_cookie():
-        expected_cookie_value = "hw_value1"
+        expected_cookie_value = "hw_value"
         expected_cookie_header = "HomeWork"
         response = requests.get("https://playground.learnqa.ru/api/homework_cookie")
         cookies = response.cookies
