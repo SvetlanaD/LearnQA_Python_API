@@ -1,9 +1,13 @@
+import allure
+
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from lib.my_requests import MyRequests
 
 
+@allure.feature("User editing")
 class TestUserEdit(BaseCase):
+    @allure.suite("Happy path")
     def test_edit_just_created_user(self):
         # REGISTER
         user_id, register_data = self.create_user()
@@ -23,6 +27,7 @@ class TestUserEdit(BaseCase):
         response = MyRequests.get(f"/user/{user_id}", headers={"x-csrf-token": token}, cookies={"auth_sid": auth_sid})
         Assertions.assert_json_value_by_name(response, "firstName", new_name, "Wrong name of the user after edit")
 
+    @allure.suite("Negative")
     def test_edit_user_unauthorized(self):
         # REGISTER
         user_id = self.create_user()
@@ -34,6 +39,7 @@ class TestUserEdit(BaseCase):
 
         Assertions.assert_code_status(response, 404)
 
+    @allure.suite("Negative")
     def test_edit_user_being_authorized_by_another_user(self):
         # REGISTER 2 USERS
         user_id_1, register_data_1 = self.create_user()
@@ -56,6 +62,7 @@ class TestUserEdit(BaseCase):
         Assertions.assert_json_value_by_name(response, "username", username_1,
                                              f"Field 'username' was changed but it shouldn't")
 
+    @allure.suite("Negative")
     def test_edit_user_incorrect_email(self):
         # REGISTER
         user_id, register_data = self.create_user()
@@ -71,6 +78,7 @@ class TestUserEdit(BaseCase):
         Assertions.assert_code_status(response, 400)
         Assertions.assert_response_text(response, "Invalid email format")
 
+    @allure.suite("Negative")
     def test_edit_user_incorrect_first_name(self):
         # REGISTER
         user_id, register_data = self.create_user()
